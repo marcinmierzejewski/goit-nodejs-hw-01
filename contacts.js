@@ -3,13 +3,11 @@ const path = require("path");
 const { nanoid } = require("nanoid");
 
 const contactsPath = path.resolve("./db/contacts.json");
-console.log(contactsPath);
 
 const listContacts = async () => {
   try {
     const readContacts = await fs.readFile(contactsPath);
-    const jsonContacts = JSON.parse(readContacts);
-    return jsonContacts;
+    return JSON.parse(readContacts);
   } catch (error) {
     console.error("Load error", error.message);
   }
@@ -19,8 +17,7 @@ const getContactById = async (contactId) => {
   try {
     const readContacts = await fs.readFile(contactsPath);
     const jsonContacts = await JSON.parse(readContacts);
-    const contact = jsonContacts.filter((cont) => cont.id === contactId);
-    return contact;
+    return jsonContacts.filter((cont) => cont.id === contactId);
   } catch (error) {
     console.error("Get contact error", error.message);
   }
