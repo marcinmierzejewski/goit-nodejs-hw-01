@@ -19,7 +19,10 @@
     "url": "https://github.com/marcinmierzejewski/goit-nodejs-hw-01/issues"
   },
   "homepage": "https://github.com/marcinmierzejewski/goit-nodejs-hw-01#readme",
-  "dependencies": {
+  "devDependencies": {
     "nodemon": "^2.0.20"
+  },
+  "dependencies": {
+    "nanoid": "^3.1.28"
   }
 }
