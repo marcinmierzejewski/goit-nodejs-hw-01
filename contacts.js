@@ -7,9 +7,8 @@ console.log(contactsPath);
 
 const listContacts = async () => {
   try {
-    const contacts = await fs.readFile(contactsPath);
-    const jsonContacts = JSON.parse(contacts);
-    console.table(jsonContacts);
+    const readContacts = await fs.readFile(contactsPath);
+    const jsonContacts = JSON.parse(readContacts);
     return jsonContacts;
   } catch (error) {
     console.error("Load error", error.message);
@@ -18,10 +17,9 @@ const listContacts = async () => {
 
 const getContactById = async (contactId) => {
   try {
-    const contacts = await fs.readFile(contactsPath);
-    const jsonContacts = JSON.parse(contacts);
+    const readContacts = await fs.readFile(contactsPath);
+    const jsonContacts = await JSON.parse(readContacts);
     const contact = jsonContacts.filter((cont) => cont.id === contactId);
-    console.log(contact);
     return contact;
   } catch (error) {
     console.error("Get contact error", error.message);
@@ -30,10 +28,12 @@ const getContactById = async (contactId) => {
 
 const removeContact = async (contactId) => {
   try {
-    const contacts = await fs.readFile(contactsPath);
-    const jsonContacts = await JSON.parse(contacts);
+    const readContacts = await fs.readFile(contactsPath);    
+    const jsonContacts = await JSON.parse(readContacts);
+    const contact = jsonContacts.filter((cont) => cont.id === contactId);
     const removedContact = await jsonContacts.filter((cont) => cont.id !== contactId);
-    const newContacts = await fs.writeFile(contactsPath, JSON.stringify(removedContact));
+    await fs.writeFile(contactsPath, JSON.stringify(removedContact));
+    return contact;
   } catch (error) {
     console.error("Remove contact error", error.message);
   }
@@ -41,8 +41,8 @@ const removeContact = async (contactId) => {
 
 const addContact = async(name, email, phone) => {
   try {
-    const contacts = await fs.readFile(contactsPath);
-    const jsonContacts = await JSON.parse(contacts);
+    const readContacts = await fs.readFile(contactsPath);
+    const jsonContacts = await JSON.parse(readContacts);
     const addNewContact = {
       id: nanoid(),
       name,
@@ -50,8 +50,8 @@ const addContact = async(name, email, phone) => {
       phone
     }
     const newContacts = [...jsonContacts, addNewContact];
-    const updateContacts = await fs.writeFile(contactsPath, JSON.stringify(newContacts));
-    console.log(updateContacts)
+    await fs.writeFile(contactsPath, JSON.stringify(newContacts));
+    return addNewContact;
   } catch (error) {
     console.error("Add contact error", error.message);
   }
